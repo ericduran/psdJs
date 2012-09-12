@@ -62,15 +62,19 @@ var psdJsImageResourceBlock = (function psdJsImageResourceBlockClosure() {
     var dataBuffer, bufferElementSize = 0;
     this.totalSize = 0;
     this.len = 0;
-    this.signature = psd.ds.readString(4);
-    this.id = psd.ds.readUint16();
+    var ImageResourceBlock = [
+      'signature', 'string:4',
+      'id', 'uint16',
+      'namelen', 'uint8',
+    ];
+    Util.extend(this, psd.ds.readStruct(ImageResourceBlock));
 
     // "Pascal string, padded to make the size even".
     // The 1st byte tells us how long the name is.
-    this.namelen = Util.pad2(psd.ds.readUint8());
+    // this.namelen = Util.pad2(psd.ds.readUint8());
     if (this.namelen == 0) {
       //skip the extra byte.
-      this.name = psd.ds.readUint8();
+      this.name = psd.ds.readUint8()
     }
     else {
       // TODO: Trow error if actually get a len larger than 0
