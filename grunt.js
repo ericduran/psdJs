@@ -3,6 +3,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
+          'lib/*.js',
           'src/psdJs.js',
           'src/psdJsHeader.js',
           'src/psdJsColorModeData.js',
@@ -17,7 +18,7 @@ module.exports = function(grunt) {
     },
     min: {
       dist: {
-        src: ['lib/*.js', 'dist/psdJs.js'],
+        src: ['dist/psdJs.js'],
         dest: 'dist/psdJs.min.js'
       }
     }
