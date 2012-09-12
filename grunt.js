@@ -24,6 +24,32 @@ module.exports = function(grunt) {
     }
   });
 
-  // Lint, concat, then minimized.
-  grunt.registerTask('default', 'lint concat min');
+  // Submodules, Lint, concat, then minimized.
+  grunt.registerTask('default', 'submodules lint concat min');
+
+
+  // Borrowed from jquery
+  // see https://github.com/jquery/jquery/blob/master/grunt.js#L377-397
+  grunt.registerTask("submodules", function() {
+    var done = this.async();
+
+    grunt.verbose.write( "Updating submodules..." );
+
+    // TODO: migrate remaining `make` to grunt tasks
+    //
+    grunt.utils.spawn({
+      cmd: "make"
+    }, function( err, result ) {
+      if ( err ) {
+        grunt.verbose.error();
+        done( err );
+        return;
+      }
+
+      grunt.log.writeln( result );
+
+      done();
+    });
+  });
+
 };
