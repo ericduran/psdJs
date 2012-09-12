@@ -22,4 +22,7 @@ module.exports = function(grunt) {
       }
     }
   });
+
+  // Lint, concat, then minimized.
+  grunt.registerTask('default', 'lint concat min');
 };
