@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
-          'lib/*.js',
+          'lib/DataStreamjs/DataStream.js',
           'src/psdJs.js',
           'src/psdJsHeader.js',
           'src/psdJsColorModeData.js',
