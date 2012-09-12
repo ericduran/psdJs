@@ -18,7 +18,7 @@ var psdJsLayerMaskInfo = (function() {
     parseLayerRecords: function (psd) {
       var records = [], layerRecord;
       for (var i = 0; i < this.layerCount; i++) {
-        layerRecord = new psdLayerRecord(psd);
+        layerRecord = new psdJsLayerRecord(psd);
         records.push(layerRecord);
       };
 
