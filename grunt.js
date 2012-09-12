@@ -4,11 +4,7 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'lib/DataStreamjs/DataStream.js',
-          'src/psdJs.js',
-          'src/psdJsHeader.js',
-          'src/psdJsColorModeData.js',
-          'src/psdJsImageResources.js',
-          'src/psdJsUtil.js'
+          'src/*.js',
         ],
         dest: 'dist/psdJs.js'
       }
@@ -39,14 +35,14 @@ module.exports = function(grunt) {
     //
     grunt.utils.spawn({
       cmd: "make"
-    }, function( err, result ) {
-      if ( err ) {
+    }, function(err, result) {
+      if (err) {
         grunt.verbose.error();
-        done( err );
+        done(err);
         return;
       }
 
-      grunt.log.writeln( result );
+      grunt.log.writeln(result);
 
       done();
     });
