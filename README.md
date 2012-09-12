@@ -23,7 +23,7 @@ Make sure you have grunt installed by testing:
 grunt -version
 ```
 
-Then, to get a complete, minified (w/ Uglify.js), linted (w/ JSHint) version of jQuery, type the following:
+Then, to get a complete, minified (w/ Uglify.js), linted (w/ JSHint) version of psdJs, type the following:
 
 ```bash
 grunt
