@@ -15,13 +15,12 @@ var psdJs = (function psdJSClosure() {
     try {
       this.ds = new DataStream(data, 0, false);
       this.header = new psdJsHeader(this);
-      this.colorModeData = new psdJsColorModeData(this);
-      this.imageResources = new psdJsImageResources(this);
-      this.layerMask = new psdLayerMask(this);
     }
-    catch (e) {
+    catch (e) {}
 
-    }
+    this.colorModeData = new psdJsColorModeData(this);
+    this.imageResources = new psdJsImageResources(this);
+    this.layerMask = new psdJsLayerMask(this);
   }
 
   psdJs.prototype = {
@@ -34,57 +33,6 @@ var psdJs = (function psdJSClosure() {
 
   return psdJs;
 })();
-
-
-/**
- * Fourth section of a Photoshop file. Contains information about layers and masks.
- *
- * See http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm#50577409_75067
- * @param  {[type]} psd [description]
- * @return {[type]}     [description]
- */
-psdLayerMask = function (psd) {
-  this.len = psd.ds.readUint32();
-  this.info = new psdLayerMaskInfo(psd);
-}
-
-psdLayerMask.prototype = {}
-
-/**
- *
- * See http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/PhotoshopFileFormats.htm#50577409_16000
- * @param  {[type]} psd [description]
- * @return {[type]}     [description]
- */
-psdLayerMaskInfo = function(psd) {
-  this.len = Util.pad2(psd.ds.readUint32());
-  this.layerCount = psd.ds.readUint16();
-  this.layerRecords = this.parseLayerRecords(psd);
-  this.channelImageData = this.parseChannelImageData(psd);
-}
-
-psdLayerMaskInfo.prototype = {
-
-  parseLayerRecords: function (psd) {
-    var records = [], layerRecord;
-    for (var i = 0; i < this.layerCount; i++) {
-      layerRecord = new psdLayerRecord(psd);
-      records.push(layerRecord);
-    };
-
-    return records;
-  },
-
-  parseChannelImageData: function(psd) {
-    var records = [], channelImageData;
-    for (var i = 0; i < this.layerCount; i++) {
-      channelImageData = new psdchannelImageData(psd, i, this.layerRecords);
-      records.push(channelImageData);
-    };
-
-    return records;
-  }
-}
 
 /**
  *
