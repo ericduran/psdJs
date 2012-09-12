@@ -25,7 +25,7 @@ module.exports = function(grunt) {
   });
 
   // Submodules, Lint, concat, then minimized.
-  grunt.registerTask('default', 'submodules lint concat min');
+  grunt.registerTask('default', 'submodules concat min');
 
 
   // Borrowed from jquery
