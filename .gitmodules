@@ -1,0 +1,3 @@
+[submodule "lib/DataStreamjs"]
+	path = lib/DataStreamjs
+	url = git://github.com/kig/DataStream.js.git
