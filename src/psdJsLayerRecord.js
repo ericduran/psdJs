@@ -158,10 +158,30 @@ var psdJsLayerBlendingRangesData = (function() {
   'use strict';
 
   function psdJsLayerBlendingRangesData(psd) {
-    this.size = psd.ds.readUint32();
+    // We always set a start value so we can move around the sections.
+    this.start = psd.ds.position;
+
+    // S : Description
+    // 4 : Length of layer blending ranges data
+    // 4 : Composite gray blend source. Contains 2 black values followed by 2 white values. Present but irrelevant for Lab & Grayscale.
+    // 4 : Composite gray blend destination range
+    // 4 : First channel source range
+    // 4 : First channel destination range
+    // 4 : Nth channel source range
+    // 4 : Nth channel destination range
+
+    var blendingStruct = [
+      'size', 'uint32',
+      'compositeSource', 'uint32',
+      'compositeDest', 'uint32',
+    ];
+
+    Util.extend(this, psd.ds.readStruct(blendingStruct));
+
+
     // Seek and skip this for now.
     // TODO: Fix me.
-    psd.ds.position = psd.ds.position + this.size;
+    psd.ds.position = psd.ds.position + (this.size - 8);
   }
 
   return psdJsLayerBlendingRangesData;
