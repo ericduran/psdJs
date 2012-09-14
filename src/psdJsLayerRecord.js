@@ -53,13 +53,15 @@ var psdJsLayerRecord = (function() {
       'blendModeSignature', 'string:4',
       'blendModeKey', 'string:4',
       // this.blendModeName = this.getBlendModeName();
+
       'opacity', 'uint8',
       'clipping', 'uint8',
+
       // TODO: Fix me. This needs to be actual bits
       // Skiping the Flags
       'flags', 'uint8',
-      'filler', 'uint8',
 
+      'filler', 'uint8',
       'lenDataBlendingName', 'uint32',
 
     ];
@@ -67,8 +69,8 @@ var psdJsLayerRecord = (function() {
     Util.extend(this, psd.ds.readStruct(layer));
 
     this.startLen = psd.ds.position;
-    this.layerMask = new psdLayerMaskAdjustmentData(psd);
-    this.layerBlendingRanges = new psdLayerBlendingRangesData(psd);
+    this.layerMask = new psdJsLayerMaskAdjustmentData(psd);
+    this.layerBlendingRanges = new psdJsLayerBlendingRangesData(psd);
 
     // "Pascal string, padded to make the size even".
     // The 1st byte tells us how long the name is.
@@ -133,4 +135,35 @@ var psdJsLayerRecord = (function() {
   }
 
   return psdJsLayerRecord;
+})();
+
+var psdJsLayerMaskAdjustmentData = (function() {
+  'use strict';
+
+  function psdJsLayerMaskAdjustmentData(psd) {
+    this.size = psd.ds.readUint32();
+    if (this.size == 0) {
+      // We'll skip the other processing.
+      return;
+    }
+    else {
+      console.log("The SIZE IS NOT 0");
+    }
+  }
+
+  return psdJsLayerMaskAdjustmentData;
+})();
+
+var psdJsLayerBlendingRangesData = (function() {
+  'use strict';
+
+  function psdJsLayerBlendingRangesData(psd) {
+    this.size = psd.ds.readUint32();
+    // Seek and skip this for now.
+    // TODO: Fix me.
+    psd.ds.position = psd.ds.position + this.size;
+  }
+
+  return psdJsLayerBlendingRangesData;
+
 })();

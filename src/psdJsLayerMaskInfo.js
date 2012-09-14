@@ -28,7 +28,7 @@ var psdJsLayerMaskInfo = (function() {
     parseChannelImageData: function(psd) {
       var records = [], channelImageData;
       for (var i = 0; i < this.layerCount; i++) {
-        channelImageData = new psdchannelImageData(psd, i, this.layerRecords);
+        channelImageData = new psdJsChannelImageData(psd, i, this.layerRecords);
         records.push(channelImageData);
       };
 
