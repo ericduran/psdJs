@@ -6,33 +6,66 @@
  * @return {[type]}     [description]
  */
 var psdJsLayerRecord = (function() {
+  'use strict';
+
   function psdJsLayerRecord(psd) {
-    this.top = psd.ds.readUint32();
-    this.left = psd.ds.readUint32();
-    this.bottom = psd.ds.readUint32();
-    this.right = psd.ds.readUint32();
-    this.channels = psd.ds.readUint16();
-    this.channelsInfo = [];
-    if (this.channels > 0) {
-      for (var i = 0; i < this.channels; i++) {
-        this.channelsInfo[i] = {};
-        this.channelsInfo[i].id = psd.ds.readUint16();
-        this.channelsInfo[i].len = psd.ds.readUint32();
-        this.channelsInfo[i].rgbakey = this.getRGBAType(this.channelsInfo[i].id);
-      };
-    }
-    this.blendModeSignature = psd.ds.readString(4);
-    this.blendModeKey = psd.ds.readString(4);
-    this.blendModeName = this.getBlendModeName();
-    this.opacity = psd.ds.readUint8();
-    this.clipping = psd.ds.readUint8();
+    // We always set a start value so we can move around the sections.
+    this.start = psd.ds.position;
 
-    // TODO: Fix me. This needs to be actual bits
-    // Skiping the Flags
-    this.flags = psd.ds.readUint8();
+    // S : Description
+    // 4 * 4 : Rectangle containing the contents of the layer. Specified as top, left, bottom, right coordinates
+    // 2 : Number of channels in the layer
+    // 6 * number of channels: Channel information. Six bytes per channel, consisting of:
+    // 2 : bytes for Channel ID: 0 = red, 1 = green, etc.;-1 = transparency mask; -2 = user supplied layer mask, -3 real user supplied layer mask (when both a user mask and a vector mask are present)
+    // 4 bytes for length of corresponding channel data. (**PSB** 8 bytes for length of corresponding channel data.) See See Channel image data for structure of channel data.
+    // 4 : Blend mode signature: '8BIM'
+    // 4 :Blend mode key:
+    // 1 : Opacity. 0 = transparent ... 255 = opaque
+    // 1 : Clipping: 0 = base, 1 = non-base
+    // 1 : Flags:
+    //        bit 0 = transparency protected; bit 1 = visible; bit 2 = obsolete;
+    //        bit 3 = 1 for Photoshop 5.0 and later, tells if bit 4 has useful information;
+    //        bit 4 = pixel data irrelevant to appearance of document
+    // 1 : Filler (zero)
+    // 4 : Length of the extra data field ( = the total length of the next five fields).
+    // * : Layer mask data: See See Layer mask / adjustment layer data for structure. Can be 40 bytes, 24 bytes, or 4 bytes if no layer mask.
+    // * : Layer blending ranges: See See Layer blending ranges data.
+    // * : Layer name: Pascal string, padded to a multiple of 4 bytes.
 
-    this.filler = psd.ds.readUint8();
-    this.lenDataBlendingName = psd.ds.readUint32();
+    var layer = [
+      'top', 'uint32',
+      'left', 'uint32',
+      'bottom', 'uint32',
+      'right', 'uint32',
+      'channels', 'uint16',
+      'channelsInfo', function(dataStream, struct) {
+        var info = [];
+        for (var i = 0; i < struct.channels; i++) {
+          info.push(psd.ds.readStruct([
+            'id', 'uint16',
+            'len', 'uint32'
+            ])
+          );
+        }
+        //this.channelsInfo[i].rgbakey = this.getRGBAType(this.channelsInfo[i].id);
+        return info;
+      },
+      'blendModeSignature', 'string:4',
+      'blendModeKey', 'string:4',
+      // this.blendModeName = this.getBlendModeName();
+      'opacity', 'uint8',
+      'clipping', 'uint8',
+      // TODO: Fix me. This needs to be actual bits
+      // Skiping the Flags
+      'flags', 'uint8',
+      'filler', 'uint8',
+
+      'lenDataBlendingName', 'uint32',
+
+    ];
+
+    Util.extend(this, psd.ds.readStruct(layer));
+
     this.startLen = psd.ds.position;
     this.layerMask = new psdLayerMaskAdjustmentData(psd);
     this.layerBlendingRanges = new psdLayerBlendingRangesData(psd);
