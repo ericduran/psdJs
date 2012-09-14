@@ -32,7 +32,7 @@ var psdJsLayerRecord = (function() {
     // * : Layer blending ranges: See See Layer blending ranges data.
     // * : Layer name: Pascal string, padded to a multiple of 4 bytes.
 
-    var layer = [
+    var layerStruct = [
       'top', 'uint32',
       'left', 'uint32',
       'bottom', 'uint32',
@@ -66,7 +66,7 @@ var psdJsLayerRecord = (function() {
 
     ];
 
-    Util.extend(this, psd.ds.readStruct(layer));
+    Util.extend(this, psd.ds.readStruct(layerStruct));
 
     this.startLen = psd.ds.position;
     this.layerMask = new psdJsLayerMaskAdjustmentData(psd);
