@@ -174,14 +174,22 @@ var psdJsLayerBlendingRangesData = (function() {
       'size', 'uint32',
       'compositeSource', 'uint32',
       'compositeDest', 'uint32',
+      'channels', function(dataStream, struct) {
+        var info = [];
+        // We're going to read in 8 bytes each loop, so we go up by 8.
+        // The struct.size also needs to be lowered by 8 bytes because we read
+        // the first 8 bytes before the loop.
+        for (var i = 0; i < struct.size - 8; i = i + 8) {
+          info.push(psd.ds.readStruct([
+            'source', 'uint32',
+            'dest', 'uint32'
+          ]));
+        }
+        return info;
+      }
     ];
 
     Util.extend(this, psd.ds.readStruct(blendingStruct));
-
-
-    // Seek and skip this for now.
-    // TODO: Fix me.
-    psd.ds.position = psd.ds.position + (this.size - 8);
   }
 
   return psdJsLayerBlendingRangesData;
