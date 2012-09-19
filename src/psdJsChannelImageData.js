@@ -27,7 +27,7 @@ var psdJsChannelImageData = (function() {
     if (this.compression === 0) {
       this.dataSize = (layerRecords[index].bottom - layerRecords[index].top) * (layerRecords[index].right - layerRecords[index].left);
       if (this.dataSize === 0) {
-        return
+        return;
       }
       else {
         if (this.dataSize == 2000000) {
@@ -36,7 +36,7 @@ var psdJsChannelImageData = (function() {
           this.data = new Uint8Array(buffer);
           for (var i = 0; i < this.data.length; i++) {
             this.data[i] = psd.ds.readUint8();
-          };
+          }
           var tempcanvas = document.createElement('canvas');
           tempcanvas.height = (layerRecords[index].bottom - layerRecords[index].top);
           tempcanvas.width = (layerRecords[index].right - layerRecords[index].left);
