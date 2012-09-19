@@ -8,8 +8,18 @@
 var psdJsChannelImageData = (function() {
 
   psdJsChannelImageData = function(psd, index, layerRecords) {
+    // We always set a start value so we can move around the sections.
+    this.start = psd.ds.position;
+
+    // S : Description
+    // 2 : Compression. 0 = Raw Data, 1 = RLE compressed, 2 = ZIP without prediction, 3 = ZIP with prediction.
+    // * : Image data.
+    //      If the compression code is 0, the image data is just the raw image data, whose size is calculated as (LayerBottom-LayerTop)* (LayerRight-LayerLeft) (from the first field in See Layer records).
+    //      If the compression code is 1, the image data starts with the byte counts for all the scan lines in the channel (LayerBottom-LayerTop) , with each count stored as a two-byte value.(**PSB** each count stored as a four-byte value.) The RLE compressed data follows, with each scan line compressed separately. The RLE compression is the same compression algorithm used by the Macintosh ROM routine PackBits, and the TIFF standard.
+    //      If the layer's size, and therefore the data, is odd, a pad byte will be inserted at the end of the row.
+    //      If the layer is an adjustment layer, the channel data is undefined (probably all white.)
+
     this.compression = psd.ds.readUint16();
-    psd.ds.position = psd.ds.position + this.dataSize;
 
     // If the compression code is 0, the image data is just the raw image data,
     // whose size is calculated as (LayerBottom-LayerTop)* (LayerRight-LayerLeft)
