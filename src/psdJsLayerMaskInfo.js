@@ -5,7 +5,9 @@
  * @param  {[type]} psd [description]
  * @return {[type]}     [description]
  */
-var psdJsLayerMaskInfo = (function() {
+var psdJsLayerMaskInfo = (function psdJsLayerMaskInfoClosure() {
+  'use strict';
+
   function psdJsLayerMaskInfo(psd) {
     this.len = Util.pad2(psd.ds.readUint32());
     this.layerCount = psd.ds.readUint16();
