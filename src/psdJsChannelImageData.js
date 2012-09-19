@@ -24,9 +24,9 @@ var psdJsChannelImageData = (function() {
     // If the compression code is 0, the image data is just the raw image data,
     // whose size is calculated as (LayerBottom-LayerTop)* (LayerRight-LayerLeft)
     // (from the first field in See Layer records).
-    if (this.compression == 0) {
+    if (this.compression === 0) {
       this.dataSize = (layerRecords[index].bottom - layerRecords[index].top) * (layerRecords[index].right - layerRecords[index].left);
-      if (this.dataSize == 0) {
+      if (this.dataSize === 0) {
         return
       }
       else {

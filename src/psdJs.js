@@ -24,11 +24,21 @@ var psdJs = (function psdJSClosure() {
   }
 
   psdJs.prototype = {
-    seekToHeader: function() {},
-    seekToColorModeData: function() {},
-    seekToImageResources:  function() {},
-    seekToLayerMaskInfo: function() {},
-    seekToImageData: function() {}
+    seekToHeader: function() {
+
+    },
+    seekToColorModeData: function() {
+
+    },
+    seekToImageResources:  function() {
+
+    },
+    seekToLayerMaskInfo: function() {
+
+    },
+    seekToImageData: function() {
+
+    }
   }
 
   return psdJs;
