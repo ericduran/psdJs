@@ -39,15 +39,7 @@ var psdJs = (function psdJSClosure() {
     seekToImageData: function() {
 
     }
-  }
+  };
 
   return psdJs;
 })();
-
-psdImageData = function (psd) {
-  psd.ds.seek(psd.ds.position + psd.layerMask.len - 4);
-  this.compression = psd.ds.readUint16();
-  this.data = psd.ds.readUint8Array(psd.ds._byteLength - psd.ds.position);
-}
-
-
