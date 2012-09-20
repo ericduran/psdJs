@@ -4,7 +4,7 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'lib/DataStreamjs/DataStream.js',
-          'src/*.js',
+          'src/*.js'
         ],
         dest: 'dist/psdJs.js'
       }
@@ -20,8 +20,8 @@ module.exports = function(grunt) {
     }
   });
 
-  // Submodules, Lint, concat, then minimized.
-  grunt.registerTask('default', 'submodules concat min');
+  // Submodules, lint, concat, then minimized.
+  grunt.registerTask('default', 'submodules lint concat min');
 
 
   // Borrowed from jquery
@@ -31,10 +31,8 @@ module.exports = function(grunt) {
 
     grunt.verbose.write( "Updating submodules..." );
 
-    // TODO: migrate remaining `make` to grunt tasks
-    //
     grunt.utils.spawn({
-      cmd: "make"
+      cmd: "git submodule update --init --recursive;"
     }, function(err, result) {
       if (err) {
         grunt.verbose.error();
