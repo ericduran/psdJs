@@ -3,10 +3,8 @@
  *
  * Utility function
  */
-
-'use strict';
-
 var Util = psdJs.Util = (function UtilClosure() {
+  'use strict';
   function Util() {}
 
   Util.extend = function (des, src) {
