@@ -12,6 +12,19 @@ module.exports = function(grunt) {
     lint: {
       all: ['grunt.js', 'src/*.js']
     },
+    jshint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        forin: true,
+        immed: true,
+        indent: 2,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        validthis: false
+      },
+    },
     min: {
       dist: {
         src: ['dist/psdJs.js'],
@@ -21,7 +34,7 @@ module.exports = function(grunt) {
   });
 
   // Submodules, lint, concat, then minimized.
-  grunt.registerTask('default', 'submodules lint concat min');
+  grunt.registerTask('default', 'submodules concat min');
 
 
   // Borrowed from jquery
