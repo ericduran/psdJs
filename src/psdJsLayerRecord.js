@@ -11,6 +11,7 @@ var psdJsLayerRecord = (function() {
   function psdJsLayerRecord(psd) {
     // We always set a start value so we can move around the sections.
     this.start = psd.ds.position;
+    var that = this; // Quick hack to avoid a loop on the info.push section of the layerStruct.
 
     // S : Description
     // 4 * 4 : Rectangle containing the contents of the layer. Specified as top, left, bottom, right coordinates
@@ -46,8 +47,8 @@ var psdJsLayerRecord = (function() {
             'len', 'uint32'
             ])
           );
+          info[i].rgbakey = that.getRGBAType(info[i].id);
         }
-        //this.channelsInfo[i].rgbakey = this.getRGBAType(this.channelsInfo[i].id);
         return info;
       },
       'blendModeSignature', 'string:4',
