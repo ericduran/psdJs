@@ -3,8 +3,8 @@
 psdJs is a Javascript experiment that explores building a parser for
 Photoshop Documents (PSD).
 
-Note: This library isn't completed. When I started there wasn't many PSD Parsing Libs in JS but I recently there has
-been a couple apearing on github so I figured I'll just open source this. Especially since my activity on it has been
+Note: This library isn't completed. When I started there wasn't many PSD Parsing Libs in JS but recently there has
+been a couple appearing on github so I figured I'll just open source this. Especially since my activity on it has been
 slowing down lately.
 
 This isn't complete. Right now everything is parsed except for the Image Data Section.
