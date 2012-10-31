@@ -4,7 +4,16 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'lib/DataStreamjs/DataStream.js',
-          'src/*.js'
+          'src/psdJs.js',
+          'src/psdJsChannelImageData.js',
+          'src/psdJsHeader.js',
+          'src/psdJsColorModeData.js',
+          'src/psdJsImageResources.js',
+          'src/psdJsLayerBlendingRangesData.js',
+          'src/psdJsLayerMask.js',
+          'src/psdJsLayerMaskInfo.js',
+          'src/psdJsLayerRecord.js',
+          'src/psdJsUtil.js'
         ],
         dest: 'dist/psdJs.js'
       }
