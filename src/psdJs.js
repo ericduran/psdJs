@@ -1,6 +1,3 @@
-
-// "use strict"
-
 /**
  * psd.js
  *
@@ -8,7 +5,6 @@
  *
  * @param {ArrayBuffer} arrayBuffer ArrayBuffer to read from.
  */
-
 var psdJs = (function psdJSClosure() {
 
   function psdJs(data) {
@@ -16,7 +12,9 @@ var psdJs = (function psdJSClosure() {
       this.ds = new DataStream(data, 0, false);
       this.header = new psdJsHeader(this);
     }
-    catch (e) {}
+    catch (e) {
+
+    }
 
     this.colorModeData = new psdJsColorModeData(this);
     this.imageResources = new psdJsImageResources(this);
